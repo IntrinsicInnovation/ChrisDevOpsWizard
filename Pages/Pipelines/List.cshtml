@@ -1,0 +1,108 @@
+﻿@page
+@model DevOpsWizard.Pages.Pipelines.ListModel
+@{
+}
+<style type="text/css">
+    thead, tbody {
+        display: block;
+    }
+    tbody {
+        height: 600px;       /* Just for the demo          */
+        overflow-y: auto;    /* Trigger vertical scroll    */
+          /* Hide the horizontal scroll */
+    }
+
+ 
+
+    /*tbody td, thead th {*/
+   /* tbody td
+
+    {
+         width: 5%; 
+         height: 100px;
+         max-height: 100px;
+         
+    }*/
+
+    thead th {
+        width: 160px;  /* 23.5%; */
+
+    }
+
+    table {
+        table-layout: fixed;
+        width: 100%;
+    }
+
+    td {
+        width: 5%;
+        height: 100px;
+    }
+
+
+    
+
+
+</style>
+
+
+<br />
+<br />
+<h1 class="ab-3"> Pipelines List</h1>
+
+@if (Model.Pipelines != null && Model.Pipelines.Any())
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Build String</th>
+                <th>Release String</th>
+                <th>Picture</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var pipeline in Model.Pipelines)
+            {
+                <tr style="height: 100px">
+                    <td>
+                        @pipeline.Name
+                    </td>
+                    <td>@pipeline.Description</td>
+                    <td>@pipeline.BuildJsonString</td>
+                    <td>
+                    <td>
+                        <div style="height:  50px; overflow: hidden;">
+                            @pipeline.ReleaseJsonString
+                        </div>
+                    </td>
+                    <td>
+                        @{
+                            if (pipeline.Content != null)
+                            {
+                                var base64 = Convert.ToBase64String(pipeline.Content);
+                                var userImage = String.Format("data:image/gif;base64,{0}", base64);
+                                <img src="@userImage" alt="User Image" style="height: 100px; width: 100px;">
+                            }
+                            else
+                            {
+                                <img src="~/images/none.jfif" alt="User Image" style="height: 100px; width: 100px;">              
+                            }
+                        }
+                    </td>
+                    <td>
+                        <a href="/Pipelines/Edit/@pipeline.Id" class="btn  btn-success  ">Edit</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p> No Pipelines found</p>
+}
+
+
+

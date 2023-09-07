@@ -1,0 +1,110 @@
+﻿@page
+@model DevOpsWizard.Pages.Pipelines.AddModel
+@{
+    var message = ViewData["Message"]?.ToString();
+}
+
+
+<style type="text/css">
+
+
+    .photo {
+        width: 7em;
+        height: 9em;
+        border: 1px solid rgb(197, 197, 197);
+        border-radius: 4px 4px 4px 4px;
+        margin-top: 2px;
+        float: left;
+    }
+</style>
+
+<script type="text/javascript">
+
+    
+    $(document).ready(function () {
+     
+
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#imagepreview').attr('src', e.target.result);
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        $("#fileupload").change(function () {
+            readURL(this);
+        });
+
+    });
+
+
+</script>
+
+
+
+
+
+<br />
+<br />
+
+<form method="post" enctype="multipart/form-data">
+
+    <h1 class="mb-8"> Add Pipeline </h1>
+
+    @if (!string.IsNullOrWhiteSpace(message))
+    {
+        <div class="alert alert-success" role="alert">
+            @message
+        </div>
+    }
+
+  
+    <div class="form-group">
+        <div class="row">
+            <div class="col-xs-6" style="margin-bottom: 5px">
+                <label class="form-label">Name</label>
+                <input type="text" class="form-control" asp-for="AddPipelineRequest.Name" />
+            </div>
+            <div class="col-xs-6" >
+            </div>
+        </div>
+    </div>
+
+        <div class="col-xs-14" style="margin-bottom: 5px">
+            <label class="form-label">Description</label>
+            <textarea class="form-control" asp-for="AddPipelineRequest.Description" cols="80" rows="5"></textarea>
+        </div>
+
+        <div class="col-xs-14" style="margin-bottom: 5px">
+            <label class="form-label">BuildJsonString</label>
+            <textarea class="form-control" asp-for="AddPipelineRequest.BuildJsonString" cols="80" rows="5"></textarea>
+        </div>
+
+        <div style="margin-bottom: 5px">
+            <label class="form-label">ReleaseJsonString</label>
+            <textarea class="form-control" asp-for="AddPipelineRequest.ReleaseJsonString" cols="80" rows="5"></textarea>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="FileUpload.FormFile"  class="control-label">
+                        Icon
+                    </label>
+                    <input id="fileupload" asp-for="FileUpload.FormFile" class="form-control" type="file" />
+                    <img id="imagepreview" class="photo" ImageUrl="img/user-5.png" style="height: 100px; width: 100px;" />
+                    <span asp-validation-for="FileUpload.FormFile" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+
+    <br />
+
+    <button type="submit" class="btn btn-primary">Save</button>
+
+</form>
+

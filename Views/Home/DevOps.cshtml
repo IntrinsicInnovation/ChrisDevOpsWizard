@@ -1,0 +1,66 @@
+﻿@using Newtonsoft.Json.Linq
+@using Microsoft.TeamFoundation.SourceControl.WebApi;
+@using Microsoft.TeamFoundation.Build.WebApi;
+@{
+    ViewData["Title"] = "DevOps INfo!";
+}
+<h2>@ViewData["Title"]</h2>
+<h3>@ViewData["Message"]</h3>
+
+REPOS:
+<table class="table table-striped table-condensed" style="font-family: monospace">
+    <tr>
+        <th>Property</th>
+        <th>Value</th>
+    </tr>
+   @* <tr>
+        <td>photo</td>
+        <td>
+            @{
+                if (ViewData["photo"] != null)
+                {
+                    <img style="margin: 5px 0; width: 150px" src="data:image/jpeg;base64, @ViewData["photo"]" />
+                }
+                else
+                {
+                    <h3>NO PHOTO</h3>
+                    <p>Check user profile in Azure Active Directory to add a photo.</p>
+                }
+            }
+        </td>
+    </tr>*@
+    @{
+        var repos = ViewData["repos"] as List<GitRepository>;
+       // var children = repos.Properties();
+        foreach (var repo in repos)
+        {
+            <tr>
+                <td>@repo.Name</td>
+                <td>@repo.WebUrl </td>
+               
+            </tr>
+        }
+    }
+</table>
+
+Definitions:
+<table class="table table-striped table-condensed" style="font-family: monospace">
+    <tr>
+        <th>Property</th>
+        <th>Value</th>
+    </tr>
+   
+    @{
+        var definitions = ViewData["definitions"] as List<BuildDefinitionReference>;
+        // var children = repos.Properties();
+        foreach (var definition in definitions)
+        {
+            <tr>
+                <td>@definition.Id</td>
+                <td>@definition.Name </td>
+
+            </tr>
+        }
+    }
+</table>
+
